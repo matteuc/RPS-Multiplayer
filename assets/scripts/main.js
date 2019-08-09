@@ -35,20 +35,53 @@ function getCurrentTime() {
 // Loads online users to DOM
 function renderOnlineUsers() {
     var activeUsers = $("#activeUsers")
+    var numUsers = 0;
     activeUsers.empty();
 
     $.each(connectionsRefSnap.val(), function (id, user) {
         if (user.username != currUser) {
             var newUserItem = $("<li class='list-group-item user'>");
             newUserItem.text(user.username);
+            newUserItem.attr("data-name", user.username);
             newUserItem.attr("data-inGame", user.inGame);
 
             (user.inGame) ? newUserItem.addClass("list-group-item-danger"): '';
 
             activeUsers.append(newUserItem);
+            numUsers++;
         }
 
     })
+
+    $("#numUsersBadge").text(numUsers);
+
+
+}
+
+function renderInvitations() {
+    usersRef.child(currUser).child("receivedInvitations").on("value", function (snap) {
+
+        var invites = snap.val()
+        var invitesDisplay = $("#receivedInvites");
+        var numInvites = 0;
+        invitesDisplay.empty();
+
+        $.each(invites, function (user, info) {
+            var newInviteItem = $("<li class='list-group-item invite'>");
+            newInviteItem.html(`${bold(user)} <i>Received on ${info.receivedOn}</i>`);
+            invitesDisplay.append(newInviteItem);
+            var sentBy = $(`.user[data-name = "${user}"]`);
+            sentBy.addClass("list-group-item-warning");
+            sentBy.append(` <i>sent you an invite on ${info.receivedOn}</i>`);
+            numInvites++;
+
+        })
+
+        $("#numInvitesBadge").text(numInvites);
+
+    });
+
+
 }
 
 // When a username is clicked, send a game invite
@@ -70,6 +103,11 @@ $(document).on("click", ".user", function () {
             });
         }
     }
+})
+
+// When an invite is clicked, play a game of RPS
+$(document).on("click", ".invite", function () {
+
 })
 
 function bold(text) {
@@ -116,6 +154,7 @@ function promptUsername() {
                 });
 
                 renderUserInfo(username);
+                renderInvitations();
 
                 // Remove user from the connection list when they disconnect.
                 con.onDisconnect().remove();

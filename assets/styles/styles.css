@@ -9,3 +9,7 @@
     align-items: center;
     justify-content: center;
 }
+
+.tab-pane {
+    padding: 10px
+}
