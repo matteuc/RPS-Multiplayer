@@ -3,3 +3,9 @@
 #username {
     font-weight: bold;
 }
+
+.modal-open .bootbox.modal {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
