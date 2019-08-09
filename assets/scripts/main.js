@@ -1,10 +1,10 @@
-var usersRefSnap, collectionsRefSnap;
+var usersRefSnap, connectionsRefSnap;
 var currUser, currUserRef, currUserRefSnap;
 
 
 usersRef.on("value", function (snap) {
     usersRefSnap = snap;
-})
+});
 
 // When the client's connection state changes...
 connectedRef.on("value", function (snap) {
@@ -28,6 +28,10 @@ function renderUserInfo(username) {
     $("#userLosses").text(usersRefSnap.child(username).val().losses);
 }
 
+function getCurrentTime() {
+    return moment().format('LLLL');
+}
+
 // Loads online users to DOM
 function renderOnlineUsers() {
     var activeUsers = $("#activeUsers")
@@ -47,7 +51,7 @@ function renderOnlineUsers() {
     })
 }
 
-// When a username is clicked, send a game invite if not inGame
+// When a username is clicked, send a game invite
 $(document).on("click", ".user", function () {
     if (currUser) {
         // If the current user is not in a game
@@ -56,8 +60,11 @@ $(document).on("click", ".user", function () {
             // Send an invitation confirmation
             bootbox.confirm(`Would you like to send ${bold(userToInvite)} a game invite?`, function (result) {
                 if (result) {
-                    currUserRef.child("invitations").update({
-                        username: userToInvite
+                    currUserRef.child("sentInvitations").child(userToInvite).update({
+                        sentOn: getCurrentTime()
+                    });
+                    usersRef.child(userToInvite).child("receivedInvitations").child(currUser).update({
+                        receivedOn: getCurrentTime()
                     })
                 }
             });
