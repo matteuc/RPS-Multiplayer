@@ -19,6 +19,7 @@ connectedRef.on("value", function (snap) {
 connectionsRef.on("value", function (snap) {
     connectionsRefSnap = snap;
     renderOnlineUsers();
+    renderInvitations();
 });
 
 // Loads current user info to DOM
@@ -69,9 +70,11 @@ function renderInvitations() {
         $.each(invites, function (user, info) {
             var newInviteItem = $("<li class='list-group-item invite'>");
             newInviteItem.html(`${bold(user)} <i>Received on ${info.receivedOn}</i>`);
+            newInviteItem.attr("data-name", user);
             invitesDisplay.append(newInviteItem);
             var sentBy = $(`.user[data-name = "${user}"]`);
-            sentBy.addClass("list-group-item-warning");
+            sentBy.removeClass("user");
+            sentBy.addClass("list-group-item-warning invitedBy");
             sentBy.append(` <i>sent you an invite on ${info.receivedOn}</i>`);
             numInvites++;
 
@@ -79,6 +82,18 @@ function renderInvitations() {
 
         $("#numInvitesBadge").text(numInvites);
 
+    });
+
+    usersRef.child(currUser).child("sentInvitations").on("value", function (snap) {
+
+        var sentInvites = snap.val()
+
+        $.each(sentInvites, function (user, info) {
+            var sentTo = $(`.user[data-name = "${user}"]`);
+            sentTo.removeClass("user");
+            sentTo.addClass("list-group-item-info");
+            sentTo.append(` <i>was sent an invite on ${info.sentOn}</i>`);
+        })
     });
 
 
@@ -106,8 +121,10 @@ $(document).on("click", ".user", function () {
 })
 
 // When an invite is clicked, play a game of RPS
-$(document).on("click", ".invite", function () {
+$(document).on("click", ".invite, .invitedBy", function () {
+    bootbox.confirm(`Would you like to challenge ${bold($(this).attr("data-name"))} to a game?`, function (result) {
 
+    })
 })
 
 function bold(text) {
