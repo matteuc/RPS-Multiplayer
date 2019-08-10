@@ -13,3 +13,15 @@
 .tab-pane {
     padding: 10px
 }
+
+#gameDisplay {
+    /* display: none; */
+}
+
+.choiceIcon {
+    width: 100%;
+}
+
+.choiceName {
+    text-align: center
+}

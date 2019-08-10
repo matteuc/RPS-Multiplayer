@@ -127,20 +127,28 @@ $(document).on("click", ".user", function () {
 $(document).on("click", ".invite, .invitedBy", function () {
     var sentBy = $(this).attr("data-name");
     bootbox.confirm(`Would you like to challenge ${bold(sentBy)} to a game?`, function (result) {
+        // remove this user from the current user's receivedInvitations
+        usersRef.child(currUser).child("receivedInvitations").child(sentBy).set(null);
+        // remove the current user from this user's sentInvitations
+        usersRef.child(sentBy).child("sentInvitations").child(currUser).set(null);
         if (result) {
-            // Remove invitedBy classes
-            // Initiate Game
-            // Update User Stats
-
-        } else {
-            // remove this user from the current user's receivedInvitations
-            usersRef.child(currUser).child("receivedInvitations").child(sentBy).set(null);
-            // remove the current user from this user's sentInvitations
-            usersRef.child(sentBy).child("sentInvitations").child(currUser).set(null);
-
+            startGame();
         }
     })
 })
+
+function startGame() {
+    // Hide Dashboard
+    $("dashboard").hide();
+    // Show Game 
+    resetGame();
+    $("#gameDisplay").fadeIn();
+
+    function resetGame() {
+        // Reset Game Information
+    }
+
+}
 
 function bold(text) {
     return `<strong>${text}</strong>`;

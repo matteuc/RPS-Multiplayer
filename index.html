@@ -24,27 +24,55 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="users-tab" data-toggle="tab" href="#usersList" role="tab"
-                aria-controls="users" aria-selected="true">Active Users <span class="badge badge-success"
-                    id="numUsersBadge"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="invitations-tab" data-toggle="tab" href="#invitations" role="tab"
-                aria-controls="invitations" aria-selected="false">Invitations <span class="badge badge-info"
-                    id="numInvitesBadge"></span></a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="usersList" role="tabpanel" aria-labelledby="users-tab">
-            <h3> Online users:</h3>
-            <ul class="list-group" id="activeUsers"></ul>
+    <div id="dashboard">
+        <ul class="nav nav-tabs" id="dash-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="users-tab" data-toggle="tab" href="#usersList" role="tab"
+                    aria-controls="users" aria-selected="true">Active Users <span class="badge badge-success"
+                        id="numUsersBadge"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="invitations-tab" data-toggle="tab" href="#invitations" role="tab"
+                    aria-controls="invitations" aria-selected="false">Invitations <span class="badge badge-info"
+                        id="numInvitesBadge"></span></a>
+            </li>
+        </ul>
+        <div class="tab-content" id="dash-content">
+            <div class="tab-pane fade show active" id="usersList" role="tabpanel" aria-labelledby="users-tab">
+                <h3> Online users:</h3>
+                <ul class="list-group" id="activeUsers"></ul>
+            </div>
+            <div class="tab-pane fade" id="invitations" role="tabpanel" aria-labelledby="invitations-tab">
+                <h3> Game Invites:</h3>
+                <ul class="list-group" id="receivedInvites"></ul>
+            </div>
         </div>
-        <div class="tab-pane fade" id="invitations" role="tabpanel" aria-labelledby="invitations-tab">
-            <h3> Game Invites:</h3>
-            <ul class="list-group" id="receivedInvites"></ul>
+    </div>
+
+    <div id="gameDisplay" class="container">
+        <div id="gameMessage" class="row justify-content-center">
+            <h2></h2>
         </div>
+        <div id="playerChoices" class="row">
+            <div id="userChoice" class="col-5">
+                <p id="userChoiceName" class="choiceName">Your Choice</p>
+                <img id="userChoiceIcon" class="choiceIcon" src="">
+            </div>
+            <div id="opponentChoice" class="col-5 offset-2 justify-content-center">
+                <p id="opponentChoiceName" class="choiceName">Their Choice</p>
+                <img id="opponentChoiceIcon" class="choiceIcon" src="">
+
+            </div>
+        </div>
+        <div id="gameControls" class="row mb-5 justify-content-center">
+            <div class="btn-group" role="group">
+                <button type="button" id="rock" class="btn btn-danger">Rock</button>
+                <button type="button" id="paper" class="btn btn-info">Paper</button>
+                <button type="button" id="scissors" class="btn btn-success">Scissors</button>
+            </div>
+        </div>
+
+
     </div>
 
     <!-- jQuery JS -->
