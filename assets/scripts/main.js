@@ -61,7 +61,8 @@ function renderOnlineUsers() {
 
 function renderInvitations() {
     usersRef.child(currUser).child("receivedInvitations").on("value", function (snap) {
-
+        // Reset users DOM
+        renderOnlineUsers();
         var invites = snap.val()
         var invitesDisplay = $("#receivedInvites");
         var numInvites = 0;
@@ -85,6 +86,8 @@ function renderInvitations() {
     });
 
     usersRef.child(currUser).child("sentInvitations").on("value", function (snap) {
+        // Reset users DOM
+        renderOnlineUsers();
 
         var sentInvites = snap.val()
 
@@ -122,8 +125,20 @@ $(document).on("click", ".user", function () {
 
 // When an invite is clicked, play a game of RPS
 $(document).on("click", ".invite, .invitedBy", function () {
-    bootbox.confirm(`Would you like to challenge ${bold($(this).attr("data-name"))} to a game?`, function (result) {
+    var sentBy = $(this).attr("data-name");
+    bootbox.confirm(`Would you like to challenge ${bold(sentBy)} to a game?`, function (result) {
+        if (result) {
+            // Remove invitedBy classes
+            // Initiate Game
+            // Update User Stats
 
+        } else {
+            // remove this user from the current user's receivedInvitations
+            usersRef.child(currUser).child("receivedInvitations").child(sentBy).set(null);
+            // remove the current user from this user's sentInvitations
+            usersRef.child(sentBy).child("sentInvitations").child(currUser).set(null);
+
+        }
     })
 })
 
