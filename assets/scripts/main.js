@@ -209,10 +209,6 @@ function renderGame() {
     var opponentChoice = userConnectionSnap.val().opponentChoice;
     var opponentConnectionRef = connectionsRef.child(connectionsId[opponent]);
 
-    // var currGameRef = gamesRef.child(currGameId);
-    // var currGameSnap = gamesRefSnap.child(currGameId);
-    // var gameInProgress = gamesRefSnap.child(currGameId).val().inProgress;
-
     // If it is the current user's turn and the game is in progress
     if (userInTurn && userInGame) {
 
@@ -227,13 +223,6 @@ function renderGame() {
                 var userChoiceIcon = getMoveIcon(userChoice);
                 $("#userChoiceIcon").attr("src", userChoiceIcon);
 
-                // var gameObject = {};
-                // gameObject[currUser] = userChoice;
-
-                // currGameRef.update(gameObject);
-
-                // Update user info
-                // "Notify" game start to opponent and show game screen
                 userConnectionRef.update({
                     inTurn: false
                 })
@@ -264,17 +253,17 @@ function renderGame() {
                 // Show Opponent Move
                 $("#opponentChoiceIcon").attr("src", opponentChoiceIcon);
 
+                userConnectionRef.update({
+                    inGame: false,
+                    result: userResult,
+                    resultShown: true
+                })
+
                 // update user in-game info
                 opponentConnectionRef.update({
                     opponentChoice: userChoice,
                     result: opponentResult,
                     resultShown: false
-                })
-
-                userConnectionRef.update({
-                    inGame: false,
-                    result: userResult,
-                    resultShown: true,
                 })
 
                 // update game info
@@ -365,20 +354,6 @@ function renderGame() {
         disableButtons();
         updateMessage(`You have ${userResult}!`);
 
-        // Increment user stats
-        switch (userResult) {
-            case "won":
-                currUserRef.update({
-                    wins: currUserRefSnap.val().wins++
-                })
-                break;
-            case "lost":
-                currUserRef.update({
-                    losses: currUserRefSnap.val().losses++
-                })
-                break;
-        }
-
         // Reset user game fields
         userConnectionRef.update({
             inGame: false,
@@ -390,14 +365,34 @@ function renderGame() {
 
         })
 
+        // Increment user stats
+        // var currWins = currUserRefSnap.val().wins;
+        // var currLosses = currUserRefSnap.val().losses;
+
+        // switch (userResult) {
+        //     case "won":
+        //         currUserRef.update({
+        //             wins: currWins + 1
+        //         })
+        //         break;
+        //     case "lost":
+        //         currUserRef.update({
+        //             losses: currLosses + 1
+        //         })
+        //         break;
+        // }
+
+
+
 
         setTimeout(function () {
             // Hide Game
             $("#gameDisplay").hide();
+            renderUserInfo(currUser)
             // Show Dashboard 
             resetGame();
             $("#dashboard").fadeIn();
-        }, 5000)
+        }, 3000)
     }
 
     // function deleteGame(gameId) {
