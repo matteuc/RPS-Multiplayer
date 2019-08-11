@@ -28,3 +28,4 @@ var connectionsRef = database.ref("/connections");
 var connectedRef = database.ref(".info/connected");
 
 var usersRef = database.ref("/users");
+var gamesRef = database.ref("/activeGames");

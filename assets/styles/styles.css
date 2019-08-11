@@ -14,8 +14,10 @@
     padding: 10px
 }
 
-#gameDisplay {
-    /* display: none; */
+#gameDisplay,
+#dashboard,
+#userGreeting {
+    display: none;
 }
 
 .choiceIcon {

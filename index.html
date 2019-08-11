@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class="jumbotron jumbotron-fluid bg-info">
+    <div class="jumbotron jumbotron-fluid bg-info" id="userGreeting">
         <div class="container">
             <h1 class="display-4">Welcome back, <span id="username"></span>!</h1>
             <p class="lead" id="userStats">You have won <span id="userWins"></span> and lost <span
@@ -50,8 +50,8 @@
     </div>
 
     <div id="gameDisplay" class="container">
-        <div id="gameMessage" class="row justify-content-center">
-            <h2></h2>
+        <div class="row justify-content-center">
+            <h2 id="gameMessage"></h2>
         </div>
         <div id="playerChoices" class="row">
             <div id="userChoice" class="col-5">
@@ -66,9 +66,9 @@
         </div>
         <div id="gameControls" class="row mb-5 justify-content-center">
             <div class="btn-group" role="group">
-                <button type="button" id="rock" class="btn btn-danger">Rock</button>
-                <button type="button" id="paper" class="btn btn-info">Paper</button>
-                <button type="button" id="scissors" class="btn btn-success">Scissors</button>
+                <button type="button" id="rock" class="btn btn-danger move">Rock</button>
+                <button type="button" id="paper" class="btn btn-info move">Paper</button>
+                <button type="button" id="scissors" class="btn btn-success move">Scissors</button>
             </div>
         </div>
 
